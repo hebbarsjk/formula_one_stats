@@ -26,9 +26,11 @@ class _LocateCircuitState extends State<LocateCircuit> {
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
           target: LatLng(widget.lat, widget.long),
-          zoom: 11.0,
+          zoom: 16.0,
         ),
         onMapCreated: _onMapCreated,
+        mapType: MapType.satellite,
+        buildingsEnabled: true,
       ),
     );
   }
