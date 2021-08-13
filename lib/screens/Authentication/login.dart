@@ -28,7 +28,7 @@ class _LogInState extends State<LogIn> {
               children: [
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'Enter your email',
+                    hintText: 'Email',
                   ),
                   validator: (String value) {
                     if (value == null || value.isEmpty) {
@@ -43,7 +43,7 @@ class _LogInState extends State<LogIn> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'Enter your password',
+                    hintText: 'Password',
                   ),
                   validator: (String value) {
                     if (value == null || value.isEmpty) {
