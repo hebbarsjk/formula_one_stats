@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:api_practice/screens/Authentication/login.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -104,6 +107,27 @@ class _SignUpState extends State<SignUp> {
                         print('Invalid');
                       }
                     },
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Text('Already a user?'),
+                      SizedBox(
+                        width: 15.0,
+                      ),
+                      GestureDetector(
+                        child: Text('Login'),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => LogIn()));
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],

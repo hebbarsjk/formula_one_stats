@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:api_practice/screens/Authentication/signup.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -70,6 +71,29 @@ class _LogInState extends State<LogIn> {
                         print('Invalid');
                       }
                     },
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Text('New user?'),
+                      SizedBox(
+                        width: 15.0,
+                      ),
+                      GestureDetector(
+                        child: Text('Signup'),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUp()));
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
