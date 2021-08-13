@@ -1,9 +1,7 @@
-import 'dart:convert';
-
+import 'package:api_practice/screens/Home/home_page.dart';
+import 'package:api_practice/screens/Standings/standings_page.dart';
+import 'package:api_practice/screens/Drivers/drivers_page.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:api_practice/models/circuit.dart';
-import 'package:api_practice/screens/locate_circuit.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,84 +15,63 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: LandingPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class LandingPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  Future getCircuitData() async {
-    var response =
-        await http.get(Uri.http('ergast.com', 'api/f1/circuits.json'));
-    var decoded = jsonDecode(response.body);
-    var jsonData = decoded["MRData"]["CircuitTable"]["Circuits"];
-
-    List<Circuit> circuits = [];
-
-    for (var circuit in jsonData) {
-      print("Circuit");
-      Circuit c = Circuit(
-          circuit['circuitId'],
-          circuit['url'],
-          circuit['circuitName'],
-          circuit['Location']['lat'],
-          circuit['Location']['long'],
-          circuit['Location']['locality'],
-          circuit['Location']['country']);
-      circuits.add(c);
-    }
-    return circuits;
-  }
-
+class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Circuits in Formula One'),
+        title: Text('Formula One Stats'),
       ),
-      body: Container(
-        child: Card(
-          child: FutureBuilder(
-            future: getCircuitData(),
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return Container(
-                  child: Center(
-                    child: Text('Loading...'),
+      body: DefaultTabController(
+        length: 3,
+        child: Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+            ),
+            Scaffold(
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.only(bottom: 15.0),
+                child: TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.circle),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.play_arrow),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.person),
+                    ),
+                  ],
+                  labelColor: Colors.red,
+                  indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(color: Colors.red, width: 4.0),
+                    insets: EdgeInsets.only(bottom: 44),
                   ),
-                );
-              } else
-                return ListView.separated(
-                  padding: EdgeInsets.all(8.0),
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, i) {
-                    return ListTile(
-                      title: Text(snapshot.data[i].circuitName),
-                      subtitle: Column(
-                        children: [
-                          Text('City - ' + snapshot.data[i].locality),
-                          Text('Country - ' + snapshot.data[i].country),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LocateCircuit(
-                                    double.parse(snapshot.data[i].lat),
-                                    double.parse(snapshot.data[i].long))));
-                      },
-                    );
-                  },
-                  separatorBuilder: (context, i) => Divider(),
-                );
-            },
-          ),
+                  unselectedLabelColor: Colors.grey,
+                ),
+              ),
+              body: TabBarView(
+                children: [
+                  HomePage(),
+                  StandingsPage(),
+                  DriversPage(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
